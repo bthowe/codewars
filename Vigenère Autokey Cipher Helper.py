@@ -1,46 +1,51 @@
 class VigenereAutokeyCipher():
-
-# check whether letter is in alphabet
-
     def __init__(self, key, alphabet):
         self.key = key
         self.alphabet = alphabet
 
     def encode(self, phrase):
-        kp = self.key_phrase(phrase)
+        KeyPhrase = self.key_phrase(phrase)
         encoded = ''
         for i in xrange(len(phrase)):
-            if phrase[i]!=' ':
-                encoded+=self.alphabett(kp[i], phrase[i])
+            if phrase[i] in self.alphabet:
+                encoded+=self.alphabett(KeyPhrase[i], phrase[i])
             else:
-                encoded+=' '
+                encoded+=phrase[i]
         return encoded
 
+    def key_phrase(self, phrase):
+        key_list = [letter for letter in self.key]
+        phrase_list = [letter for letter in phrase if letter in self.alphabet]
+        KeyPhrase = ''
+        for letter in phrase:
+            if letter in self.alphabet:
+                if key_list:
+                    KeyPhrase+=key_list.pop(0)
+                else:
+                    let = phrase_list.pop(0)
+                    KeyPhrase+=let
+                    phrase_list.append(let)
+            else:
+                KeyPhrase+=letter
+        return KeyPhrase
+
     def decode(self, phrase):
-        key_phrase_list = [letter for letter in self.key]
-        phrase_list = [letter for letter in phrase.replace(' ', '')]
+        key_list = [letter for letter in self.key]
 
         decoded = ''
-        for i in xrange(len(phrase)):
-            if phrase[i]!=' ':
-                decoded_letter=self.alphabett(key_phrase_list.pop(0), phrase_list.pop(0), encode=False)
+        for letter in phrase:
+            if letter in self.alphabet:
+                decoded_letter=self.alphabett(key_list.pop(0), letter, encode=False)
                 decoded+=decoded_letter
-                key_phrase_list.append(decoded_letter)
+                key_list.append(decoded_letter)
             else:
-                decoded+=' '
+                decoded+=letter
         return decoded
 
-    def key_phrase(self, phrase):
-        word_iter = (self.key + phrase).replace(' ', '')
-        list_phrase = [letter for letter in phrase]
-        index = 0
-        for ind in xrange(len(list_phrase)):
-            if list_phrase[ind]!=' ':
-                list_phrase[ind]=word_iter[index%len(word_iter)]
-                index+=1
-        return ''.join(list_phrase)
-
     def alphabett(self, key_letter, letter, encode=True):
+        # print key_letter, letter
+        if letter not in self.alphabet:
+            return letter
         if encode:
             index = self.alphabet.index(key_letter)
             new_alphabet = self.alphabet[index:] + self.alphabet[:index]
@@ -71,3 +76,6 @@ if __name__=="__main__":
 
     print c.encode('AAAAAAAAPASSWORDAAAAAAAA') # returns 'rovwsoiv'
     print c.decode('PASSWORDPASSWORDPASSWORD') # returns 'waffles'
+
+    # print c.encode("it's a shift cipher!")
+    # print c.decode("xt'k s ovzib vapzlz!")
