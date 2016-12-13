@@ -1,5 +1,6 @@
 def sort_array(source_array):
     sorted_odds = sorted([num for num in source_array if num%2==1])
+    return  [num if num%2==0 else sorted_odds.pop(0) for num in source_array]
 
     # lst = []
     # for num in source_array:
@@ -9,7 +10,7 @@ def sort_array(source_array):
     #         lst.append(sorted_odds.pop(0))
     # return lst
 
-    return  [num if num%2==0 else sorted_odds.pop(0) for num in source_array]
+
 
 
 if __name__=="__main__":
