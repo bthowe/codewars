@@ -1,35 +1,44 @@
-def flip(last_move, board):
-    if move>=2:
-        if (board[move-1]==chars[(turn+1)%2]) and (board[move-2]==chars[turn]):
-            board[move-1]=chars[turn]
-    if move<=5:
-        if (board[move+1]==chars[(turn+1)%2]) and (board[move+2]==chars[turn]):
-            board[move+1]=chars[turn]
+class Reversi():
+    def __init__(self, moves):
+        self.moves = moves
+        self.turn = 0
+        self.board = ['.']*8
+        self.players = ['*', 'O']
+
+    def play(self):
+        for move in self.moves:
+            self.board[move] = self.players[self.turn]
+            self.board_update()
+            self.turn = (self.turn+1)%2
+        return ''.join(self.board)
+
+    def board_update(self):
+        # go = True
+        # while go:
+        #     go = False
+        #     for i in xrange(1, 7):
+        #         if (self.board[i-1]==self.board[i+1]) and (self.board[i-1]!=self.board[i]) and (self.board[i-1]!='.') and (self.board[i]!='.'):
+        #             self.board[i] = self.players[self.turn]
+        #             go = True
+
+        # for i in xrange(0, 6):
+        #     if self.board[i]!='.':
+        #         piece = self.board[i]
+        #         to_turn = []
+        #
+        #         for item in self.board[i+1:]:
+        #             if (item==piece) or (item=='.'):
+        #                 break
+        #             to_turn.append()
+
+        # I could get it to work with the above...but try a regex.
 
 
-def reversi_row(moves):
-    board = ['.']*8
-    chars = ['*', 'O']
-    turn = 0
-
-    for move in moves:
-        board[move] = chars[turn]
-
-        last_move = move
-        while flip(last_move, board):
-            new_move = flip(last_move, board)
-            board[new_move, board)] = chars[turn]
-            last_move =new_move
-            print board
-
-
-
-
-        turn = (turn+1)%2
-
-    return board
-
-
+def reversi_row(row):
+    reversi = Reversi(row)
+    return reversi.play()
 
 if __name__=="__main__":
+# '*OO*...*' should equal '****...*'
+
     print reversi_row([7, 6, 5])
