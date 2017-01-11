@@ -1,3 +1,5 @@
+import re
+
 class Reversi():
     def __init__(self, moves):
         self.moves = moves
@@ -13,32 +15,29 @@ class Reversi():
         return ''.join(self.board)
 
     def board_update(self):
-        # go = True
-        # while go:
-        #     go = False
-        #     for i in xrange(1, 7):
-        #         if (self.board[i-1]==self.board[i+1]) and (self.board[i-1]!=self.board[i]) and (self.board[i-1]!='.') and (self.board[i]!='.'):
-        #             self.board[i] = self.players[self.turn]
-        #             go = True
-
-        # for i in xrange(0, 6):
-        #     if self.board[i]!='.':
-        #         piece = self.board[i]
-        #         to_turn = []
-        #
-        #         for item in self.board[i+1:]:
-        #             if (item==piece) or (item=='.'):
-        #                 break
-        #             to_turn.append()
-
-        # I could get it to work with the above...but try a regex.
+        t1 = self.turn
+        t2 = (self.turn+1)%2
+        for i in xrange(2):
+            regex = re.escape(self.players[t1]) + r'[' + re.escape(self.players[t2]) + r']+' + re.escape(self.players[t1])
+            results = True
+            while results:
+                results = re.findall(regex, ''.join(self.board))
+                board_string = ''.join(self.board)
+                if results:
+                    self.board = [i for i in ''.join(self.board).replace(results[0], results[0][0]*len(results[0]))]
+            t1 = t2
+            t2 = (t2+1)%2
 
 
 def reversi_row(row):
     reversi = Reversi(row)
     return reversi.play()
 
-if __name__=="__main__":
-# '*OO*...*' should equal '****...*'
 
-    print reversi_row([7, 6, 5])
+
+if __name__=="__main__":
+    # rev = Reversi([0,1,7,3,2])
+    # print rev.play()
+    # #not sure about this sequence
+
+    print reversi_row([0,1,2,3,4,5,6,7])
