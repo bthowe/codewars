@@ -13,10 +13,34 @@ public:
 
 std::string Kata::replaceNth(std::string text, int n, char oldValue, char newValue)
 {
-//    std::cout << text;
-//    for (int i = 0; i<text.size(); i++)
-//        std::cout << text[i];
-    return "hey";
+    int occurrence_count = 1;
+    std::string new_text = "";
+
+    if (n<=0)
+        return text;
+
+    for (int i = 0; i<text.size(); i++)
+        if (text[i]==oldValue)
+        {
+            if (occurrence_count%n==0)
+            {
+                occurrence_count+=1;
+                new_text+=newValue;
+            }
+            else
+            {
+                occurrence_count+=1;
+                new_text+=text[i];
+            }
+        }
+        else
+        {
+            new_text+=text[i];
+        }
+
+//    std::cout << new_text;
+
+    return new_text;
 }
 
 int main()
